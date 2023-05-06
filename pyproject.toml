@@ -1,0 +1,23 @@
+[project]
+name = "package_name"
+version = "0.1.0"
+description = "Template for Azure function App project"
+authors = [
+    {name = "Thomas Sørensen", email= "thom199b@gmail.com"}
+]
+
+dependencies = [
+    "nicegui==1.2.11",
+    "azure-functions==1.14.0",
+    "requests==2.30.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
