@@ -1,29 +1,33 @@
-from pathlib import Path
-import theme
+import requests
+from urllib.parse import unquote, quote
+import logging
 
 from nicegui import ui, app
 from nicegui.events import KeyEventArguments
+from fastapi import FastAPI
 
-folder = Path(__file__).resolve().parent.parent / 'slides'  # image source: https://pixabay.com/
-files = sorted(f.name for f in folder.glob('*.jpg'))
-blob_file = "http://127.0.0.1:10000/devstoreaccount1/images/slide1.jpg?sv=2018-03-28&st=2023-05-05T07%3A36%3A06Z&se=2023-05-06T07%3A36%3A06Z&sr=b&sp=r&sig=qRJWzTSGjHaQOb%2Fotp%2Bl9BlSezP%2BwK8I7puCA2f1Nuc%3D"
-blob_video = "http://127.0.0.1:10000/devstoreaccount1/video/swim.mp4?sv=2018-03-28&st=2023-05-05T08%3A05%3A13Z&se=2023-05-06T08%3A05%3A13Z&sr=b&sp=r&sig=44FH1b41khQHrh7yy4xfMxhezAjGbzNp4VgdgEmAAnE%3D"
-index = 0
+from pathlib import Path
+import sys
+src = Path(__file__).parent.parent
+sys.path.append(str(src))
 
+from design import theme
+from services import video_api
 
+VideoApi = video_api.VideoApi()
 
-@ui.page('/pictures')
-def picture_page():
-    # app.add_static_files('/picture', folder)  # serve all files in this folder
+def init(app: FastAPI) -> None:
+    @ui.page('/pictures')
+    def picture_page() -> None:        
+        with theme.frame('- Example A -'):
+            ui.label("Swimming").classes('text-h4 text-grey-8')
+            with ui.row():
+                title = ui.input(label="video title", placeholder="swim.mp4")
+                logging.info(f"INPUT: {title}")
+                videos = [video["name"] for video in VideoApi.get_blob_list("video")]
 
-    with theme.frame('- Example A -'):
-        ui.label('Example A').classes('text-h4 text-grey-8')
-        ui.image(blob_file)
-        ui.video(blob_video)
-        # ui.video
-        # with ui.row():
-            # ui.image(f'slides/{files[0]}')  # show the first image
-            # ui.image(f'slides/{files[0]}')  # show the first image
-            
+                choice = ui.select(videos,value=videos[0])
+                ui.button("Watch",on_click=lambda _: ui.open(VideoApi.get_blob(title=choice.value)))
+                
 
 

@@ -9,7 +9,8 @@ authors = [
 dependencies = [
     "nicegui==1.2.11",
     "azure-functions==1.14.0",
-    "requests==2.30.0"
+    "requests==2.30.0",
+    "python-decouple==3.8"
 ]
 
 [project.optional-dependencies]
