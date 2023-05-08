@@ -18,5 +18,6 @@ def init(app: FastAPI) -> None:
     @ui.page('/')
     def index_page() -> None:
         with theme.frame('Homepage'):
-            content()
+            with ui.row().classes('absolute-center'):
+                content()
     ui.run_with(app=app)

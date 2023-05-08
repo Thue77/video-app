@@ -29,3 +29,7 @@ class VideoApi:
     def get_blob_list(self, folder: str):
         response = requests.get(url=self.set_api_url("item/"+folder+"/"))
         return response.json()["videos"]
+    
+    def get_folders(self, folder_name: str = None):
+        response = requests.get(url=self.set_api_url("folder/list/")) if folder_name is None else requests.get(url=self.set_api_url("folder/list/",{"folder_name":folder_name}))
+        return [f for f in response.json()["folders"] if "azure" not in f and f != "scm-releases"]

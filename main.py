@@ -9,12 +9,13 @@ sys.path.append(str(src))
 
 import pages.home_page as home_page
 from design import theme
-from pages import home_page, pictures
+from pages import home_page, videos, folders
 
-app = FastAPI()
+app = FastAPI(title="My Title")
 
 home_page.init(app)
-pictures.init(app)
+videos.init(app)
+folders.init(app)
 
 if __name__ == "__main__":
     print("Please run startup.sh")
