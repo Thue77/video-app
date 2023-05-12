@@ -22,13 +22,13 @@ class VideoApi:
         return self.base_url + path_parameter + f"?code={self.code}&" + query_string
          
 
-    def get_blob(self, title: str, folder: str = "video"):
+    def get_blob(self, title: str, folder: str):
         response = requests.get(url=self.set_api_url("item/"+folder, query_parameters= {"video_name":title}))
         return response.json()["url"]
 
-    def get_blob_list(self, folder: str):
-        response = requests.get(url=self.set_api_url("item/"+folder+"/"))
-        return response.json()["videos"]
+    def get_content(self, folder: str, prefix: str = ""):
+        response = requests.get(url=self.set_api_url("item/"+folder+"/",query_parameters={"folder_path":prefix}))
+        return response.json()
     
     def get_folders(self, folder_name: str = None):
         response = requests.get(url=self.set_api_url("folder/list/")) if folder_name is None else requests.get(url=self.set_api_url("folder/list/",{"folder_name":folder_name}))
