@@ -66,6 +66,7 @@ numpy==1.24.3
     # via
     #   contourpy
     #   matplotlib
+    #   pyarrow
 orjson==3.8.11
     # via nicegui
 packaging==23.1
@@ -80,6 +81,8 @@ proxy-tools==0.1.0
     # via pywebview
 pscript==0.7.7
     # via vbuild
+pyarrow==12.0.0
+    # via package_name (pyproject.toml)
 pycparser==2.21
     # via cffi
 pydantic==1.10.7
